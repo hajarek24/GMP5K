@@ -24,17 +24,15 @@ public class TaskGraph {
         String cmd = commands.get(target);
         if(cmd != null) {
             System.out.println("Executing: " + cmd);
-
-            // découper la commande en arguments
-            String[] cmdArray = cmd.split(" ");
-
-            ProcessBuilder pb = new ProcessBuilder(cmdArray);
-            pb.directory(new File(".")); // répertoire courant
-            pb.inheritIO();               // affichage stdout / stderr
+            ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+            pb.directory(new File(System.getProperty("user.dir"))); // GMP5K
+            pb.inheritIO();
             Process p = pb.start();
             p.waitFor();
         }
 
+
         executed.add(target);
     }
 }
+

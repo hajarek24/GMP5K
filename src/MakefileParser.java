@@ -10,23 +10,21 @@ public class MakefileParser {
         String line;
         String currentTarget = null;
 
-        while((line = br.readLine()) != null) {
-            line = line.trim();
-            if(line.isEmpty()) continue;
-
-            if(line.contains(":")) {
-                String[] parts = line.split(":");
-                currentTarget = parts[0].trim();
-                deps.put(currentTarget, new ArrayList<>());
-                if(parts.length > 1) {
-                    String[] d = parts[1].trim().split("\\s+");
-                    deps.get(currentTarget).addAll(Arrays.asList(d));
-                }
-            } else if(line.startsWith("\t") && currentTarget != null) {
-                commands.put(currentTarget, line.trim());
-            }
-        }
-
+        while((line = br.readLine()) != null) {  
+    		if(line.trim().isEmpty()) continue;  // Vérifier si vide AVANT de modifier line  
+  
+    		if(line.contains(":")) {  
+        		String[] parts = line.split(":");  
+        		currentTarget = parts[0].trim();  
+        		deps.put(currentTarget, new ArrayList<>());  
+        		if(parts.length > 1) {  
+            			String[] d = parts[1].trim().split("\\s+");  
+            			deps.get(currentTarget).addAll(Arrays.asList(d));  
+        		}  
+    		} else if(line.startsWith("\t") && currentTarget != null) {  // Vérifier AVANT trim()  
+        		commands.put(currentTarget, line.trim());  // Trim seulement pour stocker  
+    		}  
+	}
         br.close();
     }
 

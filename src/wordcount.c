@@ -12,10 +12,17 @@ int main(int argc, char *argv[]) {
     if(!in || !out) return 1;
 
     int words = 0;
-    char c, prev = ' ';
+    int inWord = 0;  // 0 = pas dans un mot, 1 = dans un mot
+    char c;
     while((c = fgetc(in)) != EOF) {
-        if(isspace(c) && !isspace(prev)) words++;
-        prev = c;
+        if(isspace(c)) {
+            inWord = 0;
+        } else {
+            if(inWord == 0) {
+                words++;
+                inWord = 1;
+            }
+        }
     }
 
     fprintf(out, "Word count: %d\n", words);
